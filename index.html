@@ -48,6 +48,16 @@ let countdown = 10;
 
 function initGame() {
   scene = new THREE.Scene();
+  scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x87ceeb, 10, 60);
+
+// 👇 paste lighting here
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const sunLight = new THREE.DirectionalLight(0xffffff, 1);
+sunLight.position.set(10, 20, 10);
+scene.add(sunLight);
 
   camera = new THREE.PerspectiveCamera(
     75,
@@ -61,15 +71,25 @@ function initGame() {
   document.body.appendChild(renderer.domElement);
 
   // ground
-  let groundGeo = new THREE.BoxGeometry(50, 1, 50);
-  let groundMat = new THREE.MeshBasicMaterial({ color: 0x228B22 });
-  let ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.position.y = -2;
-  scene.add(ground);
+ const groundGeo = new THREE.PlaneGeometry(200, 200);
+const groundMat = new THREE.MeshStandardMaterial({ 
+  color: 0x3b7a3b,
+  roughness: 1
+});
+
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = 0;
+scene.add(ground);
 
   // player
-  let geo = new THREE.BoxGeometry(1,1,1);
-  let mat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+player = new THREE.Mesh(
+  new THREE.CapsuleGeometry(0.5, 1, 4, 8),
+  new THREE.MeshStandardMaterial({ color: 0xffffff })
+);
+
+player.position.y = 1;
+scene.add(player);
   player = new THREE.Mesh(geo, mat);
   player.position.y = 2;
   scene.add(player);
@@ -101,7 +121,11 @@ function countdownTimer() {
 
 function animate() {
   requestAnimationFrame(animate);
-  renderer.render(scene, camera);
+  camera.position.x += (player.position.x - camera.position.x) * 0.1;
+camera.position.y += (player.position.y + 3 - camera.position.y) * 0.1;
+camera.position.z += (player.position.z + 6 - camera.position.z) * 0.1;
+
+camera.lookAt(player.position);
 }
 </script>
 

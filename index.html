@@ -100,6 +100,7 @@ let player;
 let moveSide = 0;
 
 let cameraRotation = 0;
+  let cameraPitch = 0;
   let lastTouchX = 0;
 
 function initGame() {
@@ -426,6 +427,16 @@ if (
 
     cameraRotation -=
       deltaX * 0.01;
+    cameraPitch +=
+  (touch.clientY -
+  window.innerHeight / 2)
+  * 0.00005;
+
+cameraPitch =
+  Math.max(
+    -2,
+    Math.min(4, cameraPitch)
+  );
   }
 
   lastTouchX = touch.clientX;
@@ -476,17 +487,25 @@ player.position.x += moveSide;
 player.position.z += moveForward;
 
 // CAMERA FOLLOW
+const camDistance = 8;
+
 camera.position.x =
   player.position.x +
-  Math.sin(cameraRotation) * 8;
+  Math.sin(cameraRotation) *
+  camDistance;
 
 camera.position.z =
   player.position.z +
-  Math.cos(cameraRotation) * 8;
+  Math.cos(cameraRotation) *
+  camDistance;
 
 camera.position.y =
-  player.position.y + 5;
+  player.position.y +
+  4 +
+  cameraPitch;
 
+  // ROTATE PLAYER
+player.rotation.y = cameraRotation;
 camera.lookAt(player.position);
 
   renderer.render(

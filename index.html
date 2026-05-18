@@ -70,8 +70,8 @@ function initGame() {
   // Scene
   scene = new THREE.Scene();
 
-  scene.background =
-    new THREE.Color(0x6ea7ff);
+ scene.background =
+  new THREE.Color(0x2b2b2b);
 
   scene.fog =
     new THREE.Fog(
@@ -131,7 +131,7 @@ function initGame() {
 
   const groundMaterial =
     new THREE.MeshStandardMaterial({
-      color: 0x3f8f3f
+  color: 0x5c4033
     });
 
   const ground =
@@ -144,7 +144,66 @@ function initGame() {
     -Math.PI / 2;
 
   scene.add(ground);
+// ROOM MATERIAL
+const dirtMaterial =
+  new THREE.MeshStandardMaterial({
+    color: 0x5c4033
+  });
 
+// LEFT WALL
+const leftWall =
+  new THREE.Mesh(
+    new THREE.BoxGeometry(2, 12, 80),
+    dirtMaterial
+  );
+
+leftWall.position.set(-40, 5, 0);
+
+scene.add(leftWall);
+
+// RIGHT WALL
+const rightWall =
+  new THREE.Mesh(
+    new THREE.BoxGeometry(2, 12, 80),
+    dirtMaterial
+  );
+
+rightWall.position.set(40, 5, 0);
+
+scene.add(rightWall);
+
+// BACK WALL
+const backWall =
+  new THREE.Mesh(
+    new THREE.BoxGeometry(80, 12, 2),
+    dirtMaterial
+  );
+
+backWall.position.set(0, 5, -40);
+
+scene.add(backWall);
+
+// FRONT WALL
+const frontWall =
+  new THREE.Mesh(
+    new THREE.BoxGeometry(80, 12, 2),
+    dirtMaterial
+  );
+
+frontWall.position.set(0, 5, 40);
+
+scene.add(frontWall);
+
+// CEILING
+const ceiling =
+  new THREE.Mesh(
+    new THREE.BoxGeometry(80, 2, 80),
+    dirtMaterial
+  );
+
+ceiling.position.set(0, 10, 0);
+
+scene.add(ceiling);
   // Player
   const geometry =
     new THREE.BoxGeometry(

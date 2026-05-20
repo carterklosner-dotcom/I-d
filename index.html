@@ -482,9 +482,22 @@ function animate() {
     animate
   );
   // PLAYER MOVEMENT
-player.position.x += moveSide;
+const speed = 0.15;
+const angle = player.rotation.y;
 
-player.position.z += moveForward;
+// FORWARD / BACK
+player.position.x +=
+  Math.sin(angle) * -moveForward * speed;
+
+player.position.z +=
+  Math.cos(angle) * -moveForward * speed;
+
+// STRAFE LEFT / RIGHT
+player.position.x +=
+  Math.cos(angle) * moveSide * speed;
+
+player.position.z +=
+  Math.sin(angle) * moveSide * speed;
 
 // CAMERA FOLLOW
 const camDistance = 8;

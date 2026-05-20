@@ -102,6 +102,7 @@ let moveSide = 0;
 let cameraRotation = 0;
   let cameraPitch = 0;
   let lastTouchX = 0;
+  let lastTouchY = 0;
 
 function initGame() {
 
@@ -367,6 +368,7 @@ window.addEventListener(
     moveForward = 0;
 
     lastTouchX = 0;
+    lastTouchY = 0;
     
     moveSide = 0;
 
@@ -425,12 +427,13 @@ if (
     const deltaX =
       touch.clientX - lastTouchX;
 
+    const deltaY =
+  touch.clientY - lastTouchY;
+
     cameraRotation -=
       deltaX * 0.01;
-    cameraPitch +=
-  (touch.clientY -
-  window.innerHeight / 2)
-  * 0.00005;
+    cameraPitch -=
+  deltaY * 0.03;
 
 cameraPitch =
   Math.max(
@@ -440,6 +443,7 @@ cameraPitch =
   }
 
   lastTouchX = touch.clientX;
+  lastTouchY = touch.clientY;
 }
   }
 );
@@ -483,7 +487,7 @@ function animate() {
   );
   // PLAYER MOVEMENT
 const speed = 0.15;
-const angle = player.rotation.y;
+const angle = cameraRotation;
 
 // FORWARD / BACK
 player.position.x +=
